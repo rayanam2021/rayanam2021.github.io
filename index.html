@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rahul Ayanampudi's Personal Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/f664d5667e.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="header">
+    <div class="container">
+        <nav>
+            <img src="images/logo.png" class="logo">
+            <ul id="sideMenu">
+                <li><a href="#header">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <i class="fa-solid fa-xmark" onclick="closemenu()"></i>
+            </ul>
+            <i class="fa-solid fa-bars" onclick="openmenu()"></i>
+        </nav>
+        <div class="header-text">
+            <div class="cycle">
+            </div>
+            <h1>Hi, I'm <span>Rahul</span><br>Ayanampudi</h1>
+        </div>
+    </div>
+</div>
+
+<!-- ---------------------------about------------------------- -->
+<div id="about">
+    <div class="container">
+        <div class="row">
+            <div class="about-col-1">
+                <img src="images/user.jpg">
+            </div>
+            <div class="about-col-2">
+                <h1 class="sub-title">About Me</h1>
+                <p><span>Rahul Ayanampudi</span><br><br><span1>I am a dedicated student and quick learner eager to engineer the technologies of the future. In my free time, I find myself working out at the gym, trying new recipes, playing soccer and basketball, learning new software, and listening to music.</span1></p>
+
+                <div class="tab-titles">
+                    <p class="tab-links active-link" onclick="opentab('experience')">Experience</p>
+                    <p class="tab-links" onclick="opentab('skills')">Skills</p>
+                    <p class="tab-links" onclick="opentab('education')">Education</p>
+                </div>
+                <div class="tab-contents active-tab" id="experience">
+                    <ul>
+                        <li><span>Summer 2023 - Present</span><br>Systems Engineering Intern at Collins Aerospace<br><span1>Modernization of the Mission System<br>➢ Developed full-stack application to automate military requirement analysis eliminating ~93% of processing time.<br>➢ Collaborated with MBSE team to decompose complex systems for the Survivable Airborne Operations Center.<br></span1></li>
+                        <li><span>Summer 2022</span><br>Aerospace Engineering Intern at the Air Force Research Laboratory<br><span1>Reusable Propulsion Scaling Study<br>➢ Optimized scramjet engine with 10x the mass flow of the X-15 to enable reusable intercontinental hypersonic aircraft.<br>➢ Increased combustion efficiency by ~12% by modifying fuel distribution, heat release profile, and cavity geometry.<br></span1></li>
+                        <li><span>Summer 2021</span><br>Software Engineering Intern at the Air Force Research Laboratory<br><span1>Aerodynamic and Propulsion Sensitivity Study on Hypersonic Aircraft<br>➢ Analyzed design sensitivities for 8,000+ variations in vehicle geometries, viscous flow effects, and flight conditions.<br>➢ Generated low-fidelity Python tool to automate optimal aircraft configuration determination with ~20-minute runtime.<br></span1></li>
+                        <li><span>Summer 2020</span><br>Mechanical Engineering Intern at the Air Force Research Laboratory<br><span1>DJI S1000 Octocopter Sensor Payload Development<br>➢ Designed and integrated an ultralight octocopter sensor payload using Autodesk Inventor and FDM printing.<br>➢ Reduced existing payload chassis mass by ~52% by performing topological optimization and FEA stress simulations.<br>➢ <a href="https://rahulayanampudicapstone.weebly.com/" target="_blank">Capstone</a></span1></li>
+                    </ul>
+                </div>
+                <div class="tab-contents" id="skills">
+                    <ul>
+                        <li><span>Aerospace Engineering</span><br>XFLR, STAR-CCM+, ANSYS, SOLIDWORKS, Autodesk Inventor, Autodesk Fusion 360, RASAero, OpenRocket</li>
+                        <li><span>Computer Science</span><br>Python, C++, MATLAB, React, Node.js, HTML, CSS, GitHub, Linux, Nand2Tetris</li>
+                        <li><span>Miscellaneous</span><br>Arduino, Raspberry Pi, MultiSim, 3-Axis Mill</li>
+                        <p><br><span1>Not seeing a skill you are looking for? Drop me a <a href="#contact">message</a> and I'll learn it. 😁</span1></p>
+                    </ul>
+                </div>
+                <div class="tab-contents" id="education">
+                    <ul>
+                        <li><span>2025</span><br>Texas A&M University<br><span1>B.S. in Aerospace Engineering with Honors, Minors in Computer Science and Math<br>Awards: Craig and Galen Brown Foundation Scholar (valued at $60,000/year), Dean's Honor Roll<br>Programs: Grand Challenges Program Scholar, C3 Certificate, MSC Spencer Leadership Conference</span1></li>
+                        <li><span>2021</span><br>Hilliard Darby High School<br><span1>Valedictorian</span1></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ---------------------------involvements------------------------- -->
+<div id="involvements">
+    <div class="container">
+        <h1 class="sub-title">My Involvements</h1>
+        <div class="involvements-list">
+            <div>
+                <i class="fa-solid fa-rocket"></i>
+                <h2>Texas A&M University Sounding Rocketry Team</h2>
+                <p>The Texas A&M University Sounding Rocketry Team (SRT) is an interdisciplinary student-run organization dedicated to developing engineering talent through design, construction, testing, and showcasing of complex rocket systems powered by hybrid rocket engines.</p>
+                <a href="https://www.tamusrt.org/" target="_blank">Learn more</a>
+            </div>
+            <div>
+                <i class="fa-solid fa-gears"></i>
+                <h2>Undergraduate Researcher for Laser Diagnostics Lab</h2>
+                <p>The Aerospace Laboratory for Lasers, Electromagnetics, and Optics (ALLEMO) is focused on developing new diagnostics for high-speed aerodynamics, long-range detection of trace hazardous gases and pollutants, plasma-based methods for flow control, guiding of electromagnetic and laser radiation, and advanced energy conversion methods.</p>
+                <a href="https://tees.tamu.edu/research/facilities/index.html" target="_blank">Learn more</a>
+            </div>
+            <div>
+                <i class="fa-solid fa-shop"></i>
+                <h2>Texas A&M University Engineers Without Borders</h2>
+                <p>Our student and professional volunteers partner with underserved communities at home and internationally to build a more sustainable world. These community-driven partnerships address essential needs with climate conscious infrastructure while cultivating engineering and leadership skills in our partners and volunteers.</p>
+                <a href="https://www.ewb-tamu.org/" target="_blank">Learn more</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ---------------------------portfolio------------------------- -->
+<div id="portfolio">
+    <div class="container">
+        <h1 class="sub-title">My Projects</h1>
+        <div class="work-list">
+            <div class="work">
+                <img src="images/work-1.JPEG">
+                <div class="layer">
+                    <h3>High Power Rocketry</h3>
+                    <p>Built and launched a dual-deploy 7-ft fiberglass rocket to an altitude of 8,000-ft.</p>
+                    <a href="images/rocket.jpg" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                </div>
+            </div>
+            <div class="work">
+                <img src="images/work-2.png">
+                <div class="layer">
+                    <h3>Flock</h3>
+                    <p>Developed responsive airport social media application at TAMUHack 2023.</p>
+                    <a href="https://github.com/HarshGG/tamuhack2023" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                </div>
+            </div>
+            <div class="work">
+                <img src="images/work-3.JPG">
+                <div class="layer">
+                    <h3>Drone Delivery</h3>
+                    <p>Designed modular package container for mid-size quadcopters to enable delivery services.</p>
+                    <a href="images/EDD-poster.pdf" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                </div>
+            </div>
+        </div>
+        <a href="https://photos.app.goo.gl/jrAgTYK46k1kiAk6A" target="_blank" class="btn">See photos</a>
+    </div>
+</div>
+
+<!-- ---------------------------contact------------------------- -->
+<div id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="contact-left">
+                <h1 class="sub-title">Contact Me</h1>
+                <p><i class="fa-solid fa-envelope"></i>rayanam2021@gmail.com</p>
+                <p><i class="fa-solid fa-phone"></i>614-607-3464</p>
+                <div class="social-icons">
+                    <a href="https://www.linkedin.com/in/rahul-ayanampudi/" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="https://www.instagram.com/rahulayanampudi/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://twitter.com/RahulAyanampudi" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="https://www.youtube.com/channel/UCYATxsxG2wr8F8H60xyERSw" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="https://github.com/rayanam2021" target="_blank"><i class="fa-brands fa-github"></i></a>
+                </div>
+                <a href="images/resume.pdf" download class="btn btn2">Download Resume</a>
+            </div>
+            <div class="contact-right">
+                <form name="submit-to-google-sheet">
+                    <input type="text" name="Name" placeholder="Your Name" required>
+                    <input type="email" name="Email" placeholder="Your Email" required>
+                    <textarea name="Message" rows="6" placeholder="Your Message" required></textarea>
+                    <button type="submit" class="btn btn2">Submit</button>
+                </form>
+                <!-- <span id="msg">Message Received</span> -->
+            </div>
+        </div>
+    </div>
+    <div class="copyright">
+        <p>Copyright © Rahul. Made with inspiration from video by Easy Tutorials <i class="fa-solid fa-heart"></i>.</p>
+    </div>
+</div>
+
+<script>
+    var tabLinks = document.getElementsByClassName("tab-links");
+    var tabContents = document.getElementsByClassName("tab-contents");
+    
+    function opentab(tabName){
+        for(tabLink of tabLinks){
+            tabLink.classList.remove("active-link");
+        }
+        for(tabContent of tabContents){
+            tabContent.classList.remove("active-tab");
+        }
+        event.currentTarget.classList.add("active-link");
+        document.getElementById(tabName).classList.add("active-tab");
+    }
+</script>
+
+<script>
+
+    var sideMenu = document.getElementById("sideMenu");
+    function openmenu(){
+        sideMenu.style.right = "0";
+    }
+    function closemenu(){
+        sideMenu.style.right = "-200px";
+    }
+
+</script>
+
+<script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbw0veDskIc7QyIbe8OfouyLc0YnilQdDGBvAEO8lfYaM8Osb-tW0NOsSNMuOoKHdefykA/exec'
+    const form = document.forms['submit-to-google-sheet']
+    const msg = document.getElementById("msg")
+
+    form.addEventListener('submit', e => {
+      e.preventDefault()
+      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+        .then(response => {
+            msg.innerHTML = "Message sent successfully"
+            setTimeout(function(){
+                msg.innerHTML = ""
+            }, 5000)
+            form.reset()
+        })
+        .catch(error => console.error('Error!', error.message))
+    })
+  </script>
+
+<script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+<script>
+    var typingEffect = new Typed(".cycle", {
+        strings : ["Aerospace Engineer", "Computer Scientist", "Rocketeer"],
+        loop : true,
+        typeSpeed : 100,
+        backSpeed : 80,
+        startDelay : 1000,
+        backDelay : 2000
+    })
+</script>
+
+</body>
+</html>
