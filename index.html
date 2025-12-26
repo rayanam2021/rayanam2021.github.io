@@ -42,7 +42,6 @@
             border-bottom: 1px solid rgba(0,0,0,0.05);
         }
         
-        /* Smooth Logo Wing */
         .wing-logo svg {
             fill: black;
             transition: transform 0.3s ease;
@@ -68,12 +67,22 @@
             position: absolute; inset: 0; z-index: 0;
         }
 
-        /* --- Experience Marquee (No Buffering) --- */
+        /* --- Headshot Scroll Transition --- */
+        .bw-to-color {
+            filter: grayscale(100%);
+            transition: filter 1.5s ease-out;
+        }
+        .bw-to-color.active {
+            filter: grayscale(0%);
+        }
+
+        /* --- Experience Marquee --- */
         .marquee-wrapper {
             width: 100%;
-            overflow: hidden;
+            overflow: hidden; /* Hides scrollbar */
             position: relative;
-            padding: 40px 0;
+            /* Increased padding to ensure tooltips fit inside the overflow area */
+            padding: 60px 0; 
             background: #fff;
             mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
             -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
@@ -84,19 +93,16 @@
             width: max-content;
             animation: scroll 40s linear infinite;
         }
-        
-        /* Pause on hover */
         .marquee-wrapper:hover .marquee-track {
             animation-play-state: paused;
         }
-
         @keyframes scroll {
             0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); } /* Moves exactly half the track length */
+            100% { transform: translateX(-50%); }
         }
         
         .logo-item {
-            width: 200px; /* Fixed width for smooth calc */
+            width: 200px;
             height: 100px;
             display: flex;
             align-items: center;
@@ -111,12 +117,14 @@
             filter: grayscale(0%);
             opacity: 1;
             transform: scale(1.1);
+            z-index: 10;
         }
         
-        /* Tooltip for Logos */
+        /* Fixed Tooltip */
         .logo-tooltip {
             position: absolute;
-            bottom: -50px;
+            /* Moved to TOP so it doesn't get cut off by bottom overflow */
+            top: -40px; 
             left: 50%;
             transform: translateX(-50%);
             background: black;
@@ -128,7 +136,7 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.2s;
-            z-index: 20;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
         .logo-item:hover .logo-tooltip { opacity: 1; }
 
@@ -164,6 +172,7 @@
             border-radius: 20px;
             overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
         }
         .img-card:hover {
             transform: translateY(-5px);
@@ -187,9 +196,12 @@
 
     <nav class="fixed w-full z-50 glass-nav">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="flex justify-between items-center h-20"> <a href="#" class="wing-logo group p-2">
+            <div class="flex justify-between items-center h-20">
+                
+                <a href="#" class="wing-logo group p-2">
                     <svg width="40" height="40" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M22,2 L2,2 L2,22 L22,22 L22,2 Z M4,20 L4,4 L20,4 L20,20 L4,20 Z" fill="none"/> <path d="M21.9 5.8c-.3-.8-1.1-1.3-1.9-1.2-1.9.3-5.3 1.2-8.6 3.9C8.3 11.1 5.4 16.3 4.5 18.2c-.3.6.1 1.4.8 1.4h.1c.5 0 1-.3 1.2-.8.6-1.5 2.1-4.7 4.6-7.3 1.2-1.2 2.6-2.2 4.1-2.9 2.5-1.1 5.3-1.6 6.6-1.8.7-.1 1.2-.8 1-1.6z" fill="#000"/>
+                        <path d="M22,2 L2,2 L2,22 L22,22 L22,22 Z M4,20 L4,4 L20,4 L20,20 L4,20 Z" fill="none"/>
+                        <path d="M21.9 5.8c-.3-.8-1.1-1.3-1.9-1.2-1.9.3-5.3 1.2-8.6 3.9C8.3 11.1 5.4 16.3 4.5 18.2c-.3.6.1 1.4.8 1.4h.1c.5 0 1-.3 1.2-.8.6-1.5 2.1-4.7 4.6-7.3 1.2-1.2 2.6-2.2 4.1-2.9 2.5-1.1 5.3-1.6 6.6-1.8.7-.1 1.2-.8 1-1.6z" fill="#000"/>
                         <path d="M12.5 12.5c-1.5 1.5-2.8 3.5-3.5 5.2-.2.5.1 1.1.7 1.1h.1c.4 0 .7-.2.9-.6.5-1.1 1.4-2.5 2.5-3.6.8-.8 1.8-1.5 2.7-2 .4-.2.9-.1 1.1.3.2.4.1.9-.3 1.1-1.1.7-2.4 1.6-3.4 2.6-.9 1-1.7 2.2-2.1 3.2 1.4-1.2 3.1-2.3 4.9-3.2 1.8-.9 3.5-1.4 4.5-1.6.5-.1 1-.5 1-1-.1-.6-.6-1-1.2-.9-1.3.2-3.3.8-5.4 1.9-1.3.6-2.5 1.4-3.5 2.4z" fill="#000" opacity="0.6"/>
                     </svg>
                 </a>
@@ -198,7 +210,6 @@
                     <a href="#about" class="text-sm font-medium text-gray-600 hover:text-black transition-colors">About</a>
                     <a href="#open-source" class="text-sm font-medium text-gray-600 hover:text-black transition-colors">Open Source</a>
                     <a href="#featured" class="text-sm font-medium text-gray-600 hover:text-black transition-colors">Featured</a>
-                    
                     <a href="#contact" class="bg-black text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-gray-800 transition-all shadow-md">
                         Contact
                     </a>
@@ -233,13 +244,13 @@
 
     <section id="about" class="py-24 bg-white">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center reveal">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                 
-                <div class="relative">
+                <div class="relative reveal">
                     <div class="absolute -inset-4 bg-gray-100 rounded-[30px] -z-10 rotate-3"></div>
                     <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1887&auto=format&fit=crop" 
                          alt="Rahul Ayanampudi" 
-                         class="rounded-2xl shadow-2xl w-full h-[500px] object-cover filter grayscale hover:grayscale-0 transition-all duration-700">
+                         class="bw-to-color reveal rounded-2xl shadow-2xl w-full h-[500px] object-cover">
                     
                     <div class="absolute -bottom-6 -right-6 bg-white p-4 rounded-xl shadow-xl border border-gray-100 max-w-xs hidden md:block">
                         <p class="text-sm font-semibold text-black"><i class="fa-solid fa-bullseye text-red-500 mr-2"></i>Focus</p>
@@ -247,7 +258,7 @@
                     </div>
                 </div>
 
-                <div>
+                <div class="reveal" style="transition-delay: 200ms;">
                     <h2 class="text-4xl font-bold mb-6 text-black">Engineering Intelligence.</h2>
                     <p class="text-lg text-gray-600 leading-relaxed mb-6">
                         The future of aerospace isn't just about flying higher—it's about thinking faster. 
@@ -273,7 +284,7 @@
     </section>
 
     <section class="py-12 bg-white border-b border-gray-100">
-        <p class="text-center text-sm font-semibold text-gray-400 tracking-widest uppercase mb-8">Trusted by Industry Leaders</p>
+        <p class="text-center text-sm font-semibold text-gray-400 tracking-widest uppercase mb-4">Trusted by Industry Leaders</p>
         
         <div class="marquee-wrapper">
             <div class="marquee-track">
@@ -380,7 +391,6 @@
             <p class="text-gray-500 mb-12 reveal">Contributing to the autonomy community.</p>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                
                 <a href="https://github.com/rayanam2021/CS229_Final_Project" target="_blank" class="block group reveal">
                     <div class="img-card h-full">
                         <div class="card-img-container">
@@ -389,7 +399,7 @@
                         <div class="p-6">
                             <h3 class="text-xl font-bold mb-2 group-hover:text-blue-600 transition-colors">Satellite RL Reconstruction</h3>
                             <p class="text-gray-600 text-sm leading-relaxed">
-                                Active characterization of non-cooperative Resident Space Objects (RSO) using Reinforcement Learning techniques to reconstruct shape and spin.
+                                Active characterization of non-cooperative Resident Space Objects (RSO) using Reinforcement Learning techniques.
                             </p>
                         </div>
                     </div>
@@ -403,7 +413,7 @@
                         <div class="p-6">
                             <h3 class="text-xl font-bold mb-2 group-hover:text-purple-600 transition-colors">Agentic Syndicate</h3>
                             <p class="text-gray-600 text-sm leading-relaxed">
-                                YCombinator Hackathon Project. A multi-agent system designed for complex, distributed task execution with hardware integration.
+                                YCombinator Hackathon Project. A multi-agent system designed for complex, distributed task execution.
                             </p>
                         </div>
                     </div>
@@ -417,12 +427,11 @@
                         <div class="p-6">
                             <h3 class="text-xl font-bold mb-2 group-hover:text-cyan-600 transition-colors">Quadrotor-Biplane</h3>
                             <p class="text-gray-600 text-sm leading-relaxed">
-                                Full dynamics formulation and control synthesis for a hybrid VTOL aerial vehicle, optimizing transitions between hover and forward flight.
+                                Full dynamics formulation and control synthesis for a hybrid VTOL aerial vehicle, optimizing transitions.
                             </p>
                         </div>
                     </div>
                 </a>
-
             </div>
         </div>
     </section>
@@ -432,37 +441,37 @@
             <h2 class="text-4xl font-bold mb-12 reveal text-black">Featured Projects.</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 reveal">
-                    <img src="https://images.unsplash.com/photo-1517976487492-5750f3195933?q=80&w=2070&auto=format&fit=crop" class="w-full h-64 object-cover" alt="Atlas Rocket">
+                <a href="#" class="block bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 reveal group">
+                    <img src="https://images.unsplash.com/photo-1517976487492-5750f3195933?q=80&w=2070&auto=format&fit=crop" class="w-full h-64 object-cover transform transition-transform duration-500 group-hover:scale-105" alt="Atlas Rocket">
                     <div class="p-8">
-                        <h3 class="text-2xl font-bold mb-2">Atlas High Power Rocketry</h3>
+                        <h3 class="text-2xl font-bold mb-2 group-hover:text-blue-600 transition-colors">Atlas High Power Rocketry</h3>
                         <p class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-4">L1 Certified | 8,000 ft Apogee</p>
                         <p class="text-gray-600">Built a 7-ft dual-deploy fiberglass rocket. Launched successfully with an L-1350 solid motor.</p>
                     </div>
-                </div>
+                </a>
 
-                <div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 reveal">
-                    <img src="https://images.unsplash.com/photo-1527977966376-1c8408f9f108?q=80&w=2068&auto=format&fit=crop" class="w-full h-64 object-cover" alt="Quasar Drone">
+                <a href="#" class="block bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 reveal group">
+                    <img src="https://images.unsplash.com/photo-1527977966376-1c8408f9f108?q=80&w=2068&auto=format&fit=crop" class="w-full h-64 object-cover transform transition-transform duration-500 group-hover:scale-105" alt="Quasar Drone">
                     <div class="p-8">
-                        <h3 class="text-2xl font-bold mb-2">Quasar VTOL UAS</h3>
+                        <h3 class="text-2xl font-bold mb-2 group-hover:text-blue-600 transition-colors">Quasar VTOL UAS</h3>
                         <p class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-4">ONR Lead Engineer</p>
                         <p class="text-gray-600">Led 20 engineers to design a 40lb quadrotor-biplane. Achieved 20-mile range with 8lb payload on a $15k budget.</p>
                     </div>
-                </div>
+                </a>
 
-                <div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 reveal">
-                    <img src="https://images.unsplash.com/photo-1483304528321-0674f0040030?q=80&w=2070&auto=format&fit=crop" class="w-full h-64 object-cover" alt="F-15 Research">
+                <a href="#" class="block bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 reveal group">
+                    <img src="https://images.unsplash.com/photo-1483304528321-0674f0040030?q=80&w=2070&auto=format&fit=crop" class="w-full h-64 object-cover transform transition-transform duration-500 group-hover:scale-105" alt="F-15 Research">
                     <div class="p-8">
-                        <h3 class="text-2xl font-bold mb-2">Supersonic Flight Test</h3>
+                        <h3 class="text-2xl font-bold mb-2 group-hover:text-blue-600 transition-colors">Supersonic Flight Test</h3>
                         <p class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-4">NASA F-15 Researcher</p>
                         <p class="text-gray-600">Published thesis on enhanced LIDAR temperature measurement for boom predictions. Flight-tested on NASA F-15.</p>
                     </div>
-                </div>
+                </a>
 
-                <a href="https://github.com/tamusrt" target="_blank" class="block bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 reveal">
-                    <img src="https://images.unsplash.com/photo-1454789548728-85d2696cf667?q=80&w=2070&auto=format&fit=crop" class="w-full h-64 object-cover" alt="Propulsive Lander">
+                <a href="https://github.com/tamusrt" target="_blank" class="block bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 reveal group">
+                    <img src="https://images.unsplash.com/photo-1454789548728-85d2696cf667?q=80&w=2070&auto=format&fit=crop" class="w-full h-64 object-cover transform transition-transform duration-500 group-hover:scale-105" alt="Propulsive Lander">
                     <div class="p-8">
-                        <h3 class="text-2xl font-bold mb-2">Propulsive Lander</h3>
+                        <h3 class="text-2xl font-bold mb-2 group-hover:text-blue-600 transition-colors">Propulsive Lander</h3>
                         <p class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-4">TAMU SRT</p>
                         <p class="text-gray-600">6-DOF Simulation and control logic for autonomous vertical landing rockets.</p>
                     </div>
@@ -484,18 +493,29 @@
                 </div>
             </div>
 
-            <div class="bg-gray-50 p-8 rounded-3xl reveal border border-gray-100">
-                <h3 class="text-xl font-bold mb-6 text-center">Request Resume & Portfolio</h3>
+            <div class="bg-gray-50 p-8 rounded-3xl reveal border border-gray-100 shadow-sm">
+                <h3 class="text-xl font-bold mb-6 text-center">Contact Me</h3>
                 <form id="requestForm" onsubmit="handleRequest(event)" class="space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input type="text" id="name" placeholder="Name" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-500 bg-white">
-                        <input type="email" id="email" placeholder="Email" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-500 bg-white">
+                        <input type="text" id="name" placeholder="Your Name" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-500 bg-white">
+                        <input type="email" id="email" placeholder="Your Email" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-500 bg-white">
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input type="text" id="company" placeholder="Company" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-500 bg-white">
-                        <input type="text" id="linkedin" placeholder="LinkedIn URL" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-500 bg-white">
+                        <input type="text" id="company" placeholder="Company (Optional)" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-500 bg-white">
+                        <input type="text" id="linkedin" placeholder="LinkedIn URL (Optional)" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-500 bg-white">
                     </div>
-                    <button type="submit" class="w-full bg-black text-white py-3 rounded-xl font-bold hover:bg-gray-800 transition-all">Send Request</button>
+                    
+                    <div>
+                        <select id="purpose" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-500 bg-white text-gray-700">
+                            <option value="General Inquiry">General Message</option>
+                            <option value="Portfolio Request">Request Portfolio & Resume</option>
+                        </select>
+                    </div>
+                    <div>
+                        <textarea id="message" rows="4" placeholder="How can we collaborate?" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-500 bg-white"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full bg-black text-white py-3 rounded-xl font-bold hover:bg-gray-800 transition-all">Send Message</button>
                 </form>
             </div>
 
@@ -512,13 +532,14 @@
     </section>
 
     <script>
-        // Reveal Animation on Scroll
+        // Reveal Animation & Headshot Observer
         function reveal() {
-            var reveals = document.querySelectorAll(".reveal");
+            var reveals = document.querySelectorAll(".reveal, .bw-to-color");
             for (var i = 0; i < reveals.length; i++) {
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
                 var elementVisible = 100;
+                
                 if (elementTop < windowHeight - elementVisible) {
                     reveals[i].classList.add("active");
                 }
@@ -527,16 +548,18 @@
         window.addEventListener("scroll", reveal);
         reveal(); // Trigger once on load
 
-        // Handle Form Submit (Client Side Mailto)
+        // Updated Handle Request Function
         function handleRequest(e) {
             e.preventDefault();
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const company = document.getElementById('company').value;
             const linkedin = document.getElementById('linkedin').value;
+            const purpose = document.getElementById('purpose').value;
+            const message = document.getElementById('message').value;
 
-            const subject = `Portfolio Request from ${name}`;
-            const body = `Hi Rahul,%0D%0A%0D%0AI would like to request your resume and portfolio.%0D%0A%0D%0AName: ${name}%0D%0AEmail: ${email}%0D%0ACompany: ${company}%0D%0ALinkedIn: ${linkedin}%0D%0A%0D%0AThanks!`;
+            const subject = `${purpose} from ${name}`;
+            const body = `Hi Rahul,%0D%0A%0D%0A${message}%0D%0A%0D%0A---%0D%0AContext:%0D%0AName: ${name}%0D%0AEmail: ${email}%0D%0ACompany: ${company}%0D%0ALinkedIn: ${linkedin}%0D%0AInquiry Type: ${purpose}`;
 
             window.location.href = `mailto:rayanam2021@gmail.com?subject=${subject}&body=${body}`;
         }
