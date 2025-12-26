@@ -14,7 +14,7 @@
     <style>
         :root {
             --apple-text: #1d1d1f;
-            /* New 4-Color Gradient Scheme */
+            /* 4-Color Gradient */
             --grad-red: #ef4444;
             --grad-blue: #3b82f6;
             --grad-orange: #f97316;
@@ -28,16 +28,13 @@
             overflow-x: hidden;
         }
 
-        /* Serif Font for Quote */
-        .font-serif-quote {
-            font-family: 'Playfair Display', serif;
-        }
+        .font-serif-quote { font-family: 'Playfair Display', serif; }
 
         /* --- HIDE DEFAULT SCROLLBAR --- */
         ::-webkit-scrollbar { width: 0px; background: transparent; }
         html { scrollbar-width: none; }
 
-        /* --- CUSTOM DRONE FLIGHT TRACKER --- */
+        /* --- CUSTOM FLIGHT TRACKER --- */
         @media (max-width: 1024px) { #flight-track-container { display: none; } }
 
         #flight-track-container {
@@ -50,7 +47,6 @@
         }
         #flight-contrail {
             position: absolute; top: 0; left: 50%; width: 4px; 
-            /* Red -> Blue -> Orange -> Green Gradient */
             background: linear-gradient(180deg, var(--grad-red), var(--grad-blue), var(--grad-orange), var(--grad-green));
             transform: translateX(-50%); height: 0%; border-radius: 99px;
             box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); transition: height 0.1s linear;
@@ -62,68 +58,45 @@
             animation: drone-hover 3s ease-in-out infinite;
         }
         .drone-icon { display: block; transition: transform 0.2s ease; }
-        
         @keyframes drone-hover {
             0%, 100% { transform: translate(-50%, -50%) translateY(0px); }
             50% { transform: translate(-50%, -50%) translateY(-10px); }
         }
 
-        /* --- ANIMATED TEXT GRADIENT (4 Colors) --- */
+        /* --- ANIMATED TEXT GRADIENT --- */
         .animate-gradient-text {
-            /* Loop: Red -> Blue -> Orange -> Green -> Red */
             background: linear-gradient(to right, var(--grad-red), var(--grad-blue), var(--grad-orange), var(--grad-green), var(--grad-red));
             background-size: 300% 100%;
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             color: transparent;
-            animation: gradient-slide 10s linear infinite; /* Even slower for elegance */
+            animation: gradient-slide 16s linear infinite;
         }
         @keyframes gradient-slide {
             0% { background-position: 0% 50%; }
             100% { background-position: 300% 50%; }
         }
 
-        /* --- WORLD-CLASS WIND ANIMATION --- */
+        /* --- WIND ANIMATION --- */
         .wind-wrapper {
-            position: relative;
-            padding: 60px 40px;
-            overflow: hidden;
-            border-radius: 20px;
-            /* Subtle spotlight background */
+            position: relative; padding: 60px 40px; overflow: hidden; border-radius: 20px;
             background: radial-gradient(circle at center, rgba(59, 130, 246, 0.03) 0%, transparent 70%);
         }
-        
-        .quote-text {
-            position: relative;
-            z-index: 10;
-            animation: float-text 6s ease-in-out infinite;
-        }
-
-        /* Wind lines with varying speeds/opacity for depth */
+        .quote-text { position: relative; z-index: 10; animation: float-text 6s ease-in-out infinite; }
         .wind-line {
-            position: absolute;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
-            width: 150%;
-            left: -150%;
-            animation: wind-flow linear infinite;
+            position: absolute; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
+            width: 150%; left: -150%; animation: wind-flow linear infinite;
         }
-        
         .w1 { top: 20%; animation-duration: 4s; animation-delay: 0s; opacity: 0.5; }
         .w2 { top: 40%; animation-duration: 6s; animation-delay: 2s; height: 2px; opacity: 0.3; }
         .w3 { top: 60%; animation-duration: 3.5s; animation-delay: 1s; opacity: 0.6; }
         .w4 { top: 80%; animation-duration: 5s; animation-delay: 3s; opacity: 0.4; }
-
         @keyframes wind-flow {
-            0% { left: -100%; opacity: 0; }
-            50% { opacity: 1; }
-            100% { left: 100%; opacity: 0; }
+            0% { left: -100%; opacity: 0; } 50% { opacity: 1; } 100% { left: 100%; opacity: 0; }
         }
-
         @keyframes float-text {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); }
         }
 
         /* --- Animations --- */
@@ -140,7 +113,7 @@
         .video-bg-container iframe {
             width: 100vw; height: 56.25vw; min-height: 100vh; min-width: 177.77vh;
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            pointer-events: none; opacity: 0.6;
+            pointer-events: none; opacity: 0.75; /* Increased visibility */
         }
         .hero-overlay {
             background: linear-gradient(to bottom, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,1) 100%);
@@ -151,12 +124,19 @@
         .bw-to-color { filter: grayscale(100%); transition: filter 1.5s ease-out; }
         .bw-to-color.active { filter: grayscale(0%); }
 
-        /* --- Experience Marquee --- */
+        /* --- Experience Marquee (Updated for Tooltips & Scrolling) --- */
         .marquee-wrapper {
-            width: 100%; overflow: hidden; position: relative; padding: 60px 0; background: #fff;
-            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            width: 100%; 
+            overflow-x: auto; /* Allows manual scroll if desired */
+            position: relative; 
+            padding: 80px 0; /* Increased padding to fit tooltips */
+            background: #fff;
+            /* Hide scrollbar but keep functionality */
+            scrollbar-width: none; 
+            -ms-overflow-style: none;
         }
+        .marquee-wrapper::-webkit-scrollbar { display: none; }
+
         .marquee-track { display: flex; width: max-content; animation: scroll 40s linear infinite; }
         .marquee-wrapper:hover .marquee-track { animation-play-state: paused; }
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
@@ -165,11 +145,17 @@
             width: 200px; height: 100px; display: flex; align-items: center; justify-content: center;
             margin: 0 40px; position: relative; filter: grayscale(0%); opacity: 1; transition: transform 0.3s ease;
         }
-        .logo-item:hover { transform: scale(1.1); z-index: 10; }
+        .logo-item:hover { transform: scale(1.1); z-index: 60; } /* High Z-index */
+        
+        /* Updated Tooltip Positioning */
         .logo-tooltip {
-            position: absolute; top: -40px; left: 50%; transform: translateX(-50%);
-            background: black; color: white; padding: 8px 12px; font-size: 0.75rem; border-radius: 8px;
-            white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            position: absolute; 
+            bottom: -50px; /* Moved to bottom */
+            left: 50%; transform: translateX(-50%);
+            background: black; color: white; padding: 8px 12px; font-size: 0.8rem; border-radius: 8px;
+            white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 70;
         }
         .logo-item:hover .logo-tooltip { opacity: 1; }
 
@@ -244,16 +230,15 @@
         <div class="hero-overlay"></div>
 
         <div class="relative z-10 max-w-5xl mx-auto mt-10">
-            <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-4 reveal text-black">
+            <h1 class="text-4xl md:text-6xl font-bold tracking-tight mb-10 reveal text-black">
                 Shaping<br>
                 <span class="animate-gradient-text">Intelligence.</span>
             </h1>
             
-            <p class="text-3xl md:text-5xl font-bold text-gray-900 max-w-3xl mx-auto reveal mb-8" style="transition-delay: 150ms;">
+            <p class="text-5xl md:text-7xl font-bold text-gray-900 max-w-3xl mx-auto reveal" style="transition-delay: 150ms;">
                 Rahul Ayanampudi
             </p>
-            
-            <p class="mt-4 text-lg text-gray-500 reveal" style="transition-delay: 250ms;">
+            <p class="mt-1 text-lg text-gray-500 reveal font-medium" style="transition-delay: 250ms;">
                 Building intelligent physical systems for a new era of autonomy.
             </p>
         </div>
@@ -303,23 +288,59 @@
     </section>
 
     <section id="experience" class="py-12 bg-white border-b border-gray-100">
-        <p class="text-center text-lg font-bold text-black tracking-widest uppercase mb-8">Trusted by Industry Leaders</p>
+        <p class="text-center text-2xl font-bold text-black tracking-widest uppercase mb-8">Trusted by Industry Leaders</p>
         
         <div class="marquee-wrapper">
             <div class="marquee-track">
-                <div class="logo-item"><img src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman" class="h-10"></div>
-                <div class="logo-item"><img src="https://logo.clearbit.com/axiomspace.com" alt="Axiom Space" class="h-10"></div>
-                <div class="logo-item"><img src="https://logo.clearbit.com/rtx.com" alt="Collins" class="h-10"></div>
-                <div class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e6/Air_Force_Research_Laboratory_shield.png" alt="AFRL" class="h-14"></div>
-                <div class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" alt="NASA" class="h-14"></div>
-                <div class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Office_of_Naval_Research.svg/1200px-Office_of_Naval_Research.svg.png" alt="ONR" class="h-14"></div>
+                <div class="logo-item">
+                    <img src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman" class="h-10">
+                    <div class="logo-tooltip">GN&C Engineering Intern</div>
+                </div>
+                <div class="logo-item">
+                    <img src="https://logo.clearbit.com/axiomspace.com" alt="Axiom Space" class="h-10">
+                    <div class="logo-tooltip">Avionics Integration</div>
+                </div>
+                <div class="logo-item">
+                    <img src="https://logo.clearbit.com/rtx.com" alt="Collins" class="h-10">
+                    <div class="logo-tooltip">Flight Control Systems</div>
+                </div>
+                <div class="logo-item">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e6/Air_Force_Research_Laboratory_shield.png" alt="AFRL" class="h-14">
+                    <div class="logo-tooltip">Autonomous Swarms</div>
+                </div>
+                <div class="logo-item">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" alt="NASA" class="h-14">
+                    <div class="logo-tooltip">Flight Test Research</div>
+                </div>
+                <div class="logo-item">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Office_of_Naval_Research.svg/1200px-Office_of_Naval_Research.svg.png" alt="ONR" class="h-14">
+                    <div class="logo-tooltip">VTOL UAS Lead</div>
+                </div>
 
-                <div class="logo-item"><img src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman" class="h-10"></div>
-                <div class="logo-item"><img src="https://logo.clearbit.com/axiomspace.com" alt="Axiom Space" class="h-10"></div>
-                <div class="logo-item"><img src="https://logo.clearbit.com/rtx.com" alt="Collins" class="h-10"></div>
-                <div class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e6/Air_Force_Research_Laboratory_shield.png" alt="AFRL" class="h-14"></div>
-                <div class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" alt="NASA" class="h-14"></div>
-                <div class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Office_of_Naval_Research.svg/1200px-Office_of_Naval_Research.svg.png" alt="ONR" class="h-14"></div>
+                <div class="logo-item">
+                    <img src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman" class="h-10">
+                    <div class="logo-tooltip">GN&C Engineering Intern</div>
+                </div>
+                <div class="logo-item">
+                    <img src="https://logo.clearbit.com/axiomspace.com" alt="Axiom Space" class="h-10">
+                    <div class="logo-tooltip">Avionics Integration</div>
+                </div>
+                <div class="logo-item">
+                    <img src="https://logo.clearbit.com/rtx.com" alt="Collins" class="h-10">
+                    <div class="logo-tooltip">Flight Control Systems</div>
+                </div>
+                <div class="logo-item">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e6/Air_Force_Research_Laboratory_shield.png" alt="AFRL" class="h-14">
+                    <div class="logo-tooltip">Autonomous Swarms</div>
+                </div>
+                <div class="logo-item">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" alt="NASA" class="h-14">
+                    <div class="logo-tooltip">Flight Test Research</div>
+                </div>
+                <div class="logo-item">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Office_of_Naval_Research.svg/1200px-Office_of_Naval_Research.svg.png" alt="ONR" class="h-14">
+                    <div class="logo-tooltip">VTOL UAS Lead</div>
+                </div>
             </div>
         </div>
     </section>
@@ -577,7 +598,6 @@
         const droneIcon = document.querySelector('.drone-icon');
         let lastScrollTop = 0;
 
-        // Check if element is visible/exists before running
         if(contrail) {
             window.addEventListener('scroll', () => {
                 const scrollTop = window.scrollY;
