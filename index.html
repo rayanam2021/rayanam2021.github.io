@@ -9,15 +9,12 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --apple-blue: #0071e3;
             --apple-text: #1d1d1f;
-            /* Dynamic Scrollbar Variables (Controlled by JS) */
-            --scroll-color-1: #0071e3; 
-            --scroll-color-2: #a855f7;
         }
 
         body {
@@ -27,49 +24,90 @@
             overflow-x: hidden;
         }
 
-        /* New Premium Tech Font */
-        .font-tech {
-            font-family: 'Space Grotesk', sans-serif;
-            letter-spacing: -0.02em; /* Tighter tracking for modern look */
+        /* --- HIDE DEFAULT SCROLLBAR --- */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+        html {
+            scrollbar-width: none;
         }
 
-        /* --- ANIMATED TEXT GRADIENT --- */
+        /* --- CUSTOM DRONE FLIGHT TRACKER --- */
+        #flight-track-container {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 60px; 
+            height: 100vh;
+            z-index: 9999;
+            pointer-events: none; 
+        }
+
+        #flight-guideline {
+            position: absolute;
+            top: 0; bottom: 0; left: 50%;
+            width: 2px;
+            background: rgba(0,0,0,0.05);
+            transform: translateX(-50%);
+        }
+
+        #flight-contrail {
+            position: absolute;
+            top: 0; left: 50%;
+            width: 4px; 
+            background: linear-gradient(180deg, #0071e3, #a855f7, #06b6d4);
+            transform: translateX(-50%);
+            height: 0%;
+            border-radius: 99px;
+            box-shadow: 0 0 10px rgba(0, 113, 227, 0.4);
+            transition: height 0.1s linear;
+        }
+
+        #drone-pilot {
+            position: absolute;
+            top: 0%; 
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: black;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+            transition: top 0.1s linear;
+            animation: drone-hover 3s ease-in-out infinite;
+        }
+        
+        .drone-icon {
+            display: block;
+            transition: transform 0.2s ease;
+        }
+
+        @keyframes drone-hover {
+            0%, 100% { transform: translate(-50%, -50%) translateY(0px); }
+            50% { transform: translate(-50%, -50%) translateY(-10px); }
+        }
+
+        /* --- UPDATED: SLOW, VIBRANT LEFT-TO-RIGHT GRADIENT --- */
         .animate-gradient-text {
-            background: linear-gradient(to right, #000 0%, #666 50%, #000 100%);
-            background-size: 200% auto;
-            color: #000;
+            /* Vibrant Brand Gradient: Blue -> Purple -> Cyan -> Blue (for loop) */
+            background: linear-gradient(to right, #0071e3, #a855f7, #06b6d4, #0071e3);
+            background-size: 300% 100%; /* Stretch gradient for smooth movement */
+            
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: shine 3s linear infinite;
+            color: transparent;
+            
+            /* Slower Animation: 8 seconds, Linear for smoothness */
+            animation: gradient-slide 8s linear infinite;
         }
 
-        @keyframes shine {
-            to {
-                background-position: 200% center;
+        @keyframes gradient-slide {
+            0% {
+                background-position: 0% 50%;
             }
-        }
-
-        /* --- INTERACTIVE ARTISTIC SCROLLBAR --- */
-        ::-webkit-scrollbar {
-            width: 14px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f5f5f7; 
-            border-left: 1px solid #e5e5e5;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, var(--scroll-color-1), var(--scroll-color-2));
-            border-radius: 20px;
-            border: 3px solid transparent;
-            background-clip: content-box;
-            transition: background 0.1s linear;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            border: 2px solid transparent;
+            100% {
+                background-position: 300% 50%; /* Moves Left -> Right */
+            }
         }
 
         /* --- Animations --- */
@@ -89,15 +127,12 @@
             backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(0,0,0,0.05);
         }
-        
         .nav-logo-img {
             height: 40px; 
             width: auto;
             transition: transform 0.3s ease;
         }
-        .nav-logo-img:hover {
-            transform: scale(1.05);
-        }
+        .nav-logo-img:hover { transform: scale(1.05); }
 
         /* --- Hero Video --- */
         .video-bg-container {
@@ -135,7 +170,6 @@
             mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
             -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
         }
-        
         .marquee-track {
             display: flex;
             width: max-content;
@@ -157,8 +191,7 @@
             justify-content: center;
             margin: 0 40px;
             position: relative;
-            /* FULL COLOR MODE ACTIVATED */
-            filter: grayscale(0%); 
+            filter: grayscale(0%); /* Full Color */
             opacity: 1;
             transition: transform 0.3s ease;
         }
@@ -166,8 +199,6 @@
             transform: scale(1.1);
             z-index: 10;
         }
-        
-        /* Fixed Tooltip */
         .logo-tooltip {
             position: absolute;
             top: -40px; 
@@ -240,14 +271,20 @@
 </head>
 <body class="antialiased">
 
+    <div id="flight-track-container">
+        <div id="flight-guideline"></div>
+        <div id="flight-contrail"></div>
+        <div id="drone-pilot">
+            <i class="fa-solid fa-plane-up drone-icon" style="transform: rotate(180deg);"></i>
+        </div>
+    </div>
+
     <nav class="fixed w-full z-50 glass-nav">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex justify-between items-center h-20">
-                
                 <a href="#" class="group py-2">
                     <img src="logo.png" alt="Logo" class="nav-logo-img">
                 </a>
-
                 <div class="hidden md:flex items-center space-x-10">
                     <a href="#about" class="text-sm font-medium text-gray-600 hover:text-black transition-colors">About</a>
                     <a href="#experience" class="text-sm font-medium text-gray-600 hover:text-black transition-colors">Experience</a>
@@ -267,12 +304,12 @@
         <div class="hero-overlay"></div>
 
         <div class="relative z-10 max-w-5xl mx-auto mt-10">
-            <h1 class="text-6xl md:text-8xl font-bold tracking-tight mb-8 reveal text-black font-tech">
+            <h1 class="text-6xl md:text-8xl font-bold tracking-tight mb-8 reveal text-black">
                 Shaping<br>
                 <span class="animate-gradient-text">Intelligence.</span>
             </h1>
             
-            <p class="mt-2 text-xl md:text-3xl text-gray-800 max-w-3xl mx-auto reveal font-tech font-light" style="transition-delay: 150ms;">
+            <p class="mt-2 text-xl md:text-3xl text-gray-800 max-w-3xl mx-auto reveal font-light" style="transition-delay: 150ms;">
                 Rahul Ayanampudi | Stanford & Texas A&M
             </p>
             
@@ -289,13 +326,11 @@
     <section id="about" class="py-24 bg-white">
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-                
                 <div class="relative reveal">
                     <div class="absolute -inset-4 bg-gray-100 rounded-[30px] -z-10 rotate-3"></div>
                     <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1887&auto=format&fit=crop" 
                          alt="Rahul Ayanampudi" 
                          class="bw-to-color reveal rounded-2xl shadow-2xl w-full h-[500px] object-cover">
-                    
                     <div class="absolute -bottom-6 -right-6 bg-white p-4 rounded-xl shadow-xl border border-gray-100 max-w-xs hidden md:block">
                         <p class="text-sm font-semibold text-black"><i class="fa-solid fa-bullseye text-red-500 mr-2"></i>Focus</p>
                         <p class="text-xs text-gray-500 mt-1">Robust Control & AI for Safety-Critical Systems</p>
@@ -303,7 +338,7 @@
                 </div>
 
                 <div class="reveal" style="transition-delay: 200ms;">
-                    <h2 class="text-4xl font-bold mb-6 text-black font-tech">Engineering Intelligence.</h2>
+                    <h2 class="text-4xl font-bold mb-6 text-black">Engineering Intelligence.</h2>
                     <p class="text-lg text-gray-600 leading-relaxed mb-6">
                         The future of aerospace isn't just about flying higher—it's about thinking faster. 
                         I specialize in the intersection of <span class="text-black font-semibold">Guidance, Navigation, & Control (GN&C)</span> and <span class="text-black font-semibold">Artificial Intelligence</span>.
@@ -314,11 +349,11 @@
                     
                     <div class="grid grid-cols-2 gap-6 border-t border-gray-100 pt-8">
                         <div>
-                            <span class="block text-3xl font-bold text-black font-tech">M.S.</span>
+                            <span class="block text-3xl font-bold text-black">M.S.</span>
                             <span class="text-sm text-gray-500">Aero/Astro, Stanford</span>
                         </div>
                         <div>
-                            <span class="block text-3xl font-bold text-black font-tech">B.S.</span>
+                            <span class="block text-3xl font-bold text-black">B.S.</span>
                             <span class="text-sm text-gray-500">Aerospace, Texas A&M</span>
                         </div>
                     </div>
@@ -328,7 +363,7 @@
     </section>
 
     <section id="experience" class="py-12 bg-white border-b border-gray-100">
-        <p class="text-center text-lg font-bold text-black tracking-widest uppercase mb-8 font-tech">Trusted by Industry Leaders</p>
+        <p class="text-center text-lg font-bold text-black tracking-widest uppercase mb-8">Trusted by Industry Leaders</p>
         
         <div class="marquee-wrapper">
             <div class="marquee-track">
@@ -387,7 +422,7 @@
 
     <section class="py-24 bg-[#f5f5f7]">
         <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-4xl font-bold mb-12 reveal text-black font-tech">Academic Foundation.</h2>
+            <h2 class="text-4xl font-bold mb-12 reveal text-black">Academic Foundation.</h2>
             
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div class="edu-card group reveal">
@@ -402,7 +437,7 @@
                             <span class="tab-bubble">Hyperspell (1st)</span>
                             <span class="tab-bubble">StackAuth (1st)</span>
                         </div>
-                        <h3 class="text-3xl font-bold font-tech">Stanford University</h3>
+                        <h3 class="text-3xl font-bold">Stanford University</h3>
                         <p class="text-lg font-medium opacity-90">M.S. Aeronautics & Astronautics</p>
                         <p class="text-sm opacity-75 mt-1">Stanford Space Initiative</p>
                         <div class="mt-4 text-sm text-gray-300 leading-relaxed">
@@ -423,7 +458,7 @@
                             <span class="tab-bubble">Astronaut Scholar Nominee</span>
                             <span class="tab-bubble">Summa Cum Laude</span>
                         </div>
-                        <h3 class="text-3xl font-bold font-tech">Texas A&M University</h3>
+                        <h3 class="text-3xl font-bold">Texas A&M University</h3>
                         <p class="text-lg font-medium opacity-90">B.S. Aerospace Engineering</p>
                         <p class="text-sm opacity-75 mt-1">Minors: CS, Math, Entrepreneurship</p>
                         <div class="mt-4 text-sm text-gray-300 leading-relaxed">
@@ -439,7 +474,7 @@
 
     <section id="open-source" class="py-24 bg-white">
         <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-4xl font-bold mb-4 reveal text-black font-tech">Open Source.</h2>
+            <h2 class="text-4xl font-bold mb-4 reveal text-black">Open Source.</h2>
             <p class="text-gray-500 mb-12 reveal">Contributing to the autonomy community.</p>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -449,7 +484,7 @@
                             <img src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=2072&auto=format&fit=crop" alt="Satellite RL">
                         </div>
                         <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2 group-hover:text-blue-600 transition-colors font-tech">Satellite RL Reconstruction</h3>
+                            <h3 class="text-xl font-bold mb-2 group-hover:text-blue-600 transition-colors">Satellite RL Reconstruction</h3>
                             <p class="text-gray-600 text-sm leading-relaxed">
                                 Active characterization of non-cooperative Resident Space Objects (RSO) using Reinforcement Learning techniques.
                             </p>
@@ -463,7 +498,7 @@
                             <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop" alt="Agentic Syndicate">
                         </div>
                         <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2 group-hover:text-purple-600 transition-colors font-tech">Agentic Syndicate</h3>
+                            <h3 class="text-xl font-bold mb-2 group-hover:text-purple-600 transition-colors">Agentic Syndicate</h3>
                             <p class="text-gray-600 text-sm leading-relaxed">
                                 YCombinator Hackathon Project. A multi-agent system designed for complex, distributed task execution.
                             </p>
@@ -477,7 +512,7 @@
                             <img src="https://images.unsplash.com/photo-1506947411487-a56738267384?q=80&w=2074&auto=format&fit=crop" alt="Quadrotor Biplane">
                         </div>
                         <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2 group-hover:text-cyan-600 transition-colors font-tech">Quadrotor-Biplane</h3>
+                            <h3 class="text-xl font-bold mb-2 group-hover:text-cyan-600 transition-colors">Quadrotor-Biplane</h3>
                             <p class="text-gray-600 text-sm leading-relaxed">
                                 Full dynamics formulation and control synthesis for a hybrid VTOL aerial vehicle, optimizing transitions.
                             </p>
@@ -490,13 +525,13 @@
 
     <section id="featured" class="py-24 bg-[#f5f5f7]">
         <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-4xl font-bold mb-12 reveal text-black font-tech">Featured Projects.</h2>
+            <h2 class="text-4xl font-bold mb-12 reveal text-black">Featured Projects.</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <a href="#" class="block bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 reveal group">
                     <img src="https://images.unsplash.com/photo-1517976487492-5750f3195933?q=80&w=2070&auto=format&fit=crop" class="w-full h-64 object-cover transform transition-transform duration-500 group-hover:scale-105" alt="Atlas Rocket">
                     <div class="p-8">
-                        <h3 class="text-2xl font-bold mb-2 group-hover:text-blue-600 transition-colors font-tech">Atlas High Power Rocketry</h3>
+                        <h3 class="text-2xl font-bold mb-2 group-hover:text-blue-600 transition-colors">Atlas High Power Rocketry</h3>
                         <p class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-4">L1 Certified | 8,000 ft Apogee</p>
                         <p class="text-gray-600">Built a 7-ft dual-deploy fiberglass rocket. Launched successfully with an L-1350 solid motor.</p>
                     </div>
@@ -505,7 +540,7 @@
                 <a href="#" class="block bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 reveal group">
                     <img src="https://images.unsplash.com/photo-1527977966376-1c8408f9f108?q=80&w=2068&auto=format&fit=crop" class="w-full h-64 object-cover transform transition-transform duration-500 group-hover:scale-105" alt="Quasar Drone">
                     <div class="p-8">
-                        <h3 class="text-2xl font-bold mb-2 group-hover:text-blue-600 transition-colors font-tech">Quasar VTOL UAS</h3>
+                        <h3 class="text-2xl font-bold mb-2 group-hover:text-blue-600 transition-colors">Quasar VTOL UAS</h3>
                         <p class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-4">ONR Lead Engineer</p>
                         <p class="text-gray-600">Led 20 engineers to design a 40lb quadrotor-biplane. Achieved 20-mile range with 8lb payload on a $15k budget.</p>
                     </div>
@@ -514,7 +549,7 @@
                 <a href="#" class="block bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 reveal group">
                     <img src="https://images.unsplash.com/photo-1483304528321-0674f0040030?q=80&w=2070&auto=format&fit=crop" class="w-full h-64 object-cover transform transition-transform duration-500 group-hover:scale-105" alt="F-15 Research">
                     <div class="p-8">
-                        <h3 class="text-2xl font-bold mb-2 group-hover:text-blue-600 transition-colors font-tech">Supersonic Flight Test</h3>
+                        <h3 class="text-2xl font-bold mb-2 group-hover:text-blue-600 transition-colors">Supersonic Flight Test</h3>
                         <p class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-4">NASA F-15 Researcher</p>
                         <p class="text-gray-600">Published thesis on enhanced LIDAR temperature measurement for boom predictions. Flight-tested on NASA F-15.</p>
                     </div>
@@ -523,7 +558,7 @@
                 <a href="https://github.com/tamusrt" target="_blank" class="block bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 reveal group">
                     <img src="https://images.unsplash.com/photo-1454789548728-85d2696cf667?q=80&w=2070&auto=format&fit=crop" class="w-full h-64 object-cover transform transition-transform duration-500 group-hover:scale-105" alt="Propulsive Lander">
                     <div class="p-8">
-                        <h3 class="text-2xl font-bold mb-2 group-hover:text-blue-600 transition-colors font-tech">Propulsive Lander</h3>
+                        <h3 class="text-2xl font-bold mb-2 group-hover:text-blue-600 transition-colors">Propulsive Lander</h3>
                         <p class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-4">TAMU SRT</p>
                         <p class="text-gray-600">6-DOF Simulation and control logic for autonomous vertical landing rockets.</p>
                     </div>
@@ -535,7 +570,7 @@
     <section id="contact" class="py-24 bg-white border-t border-gray-100">
         <div class="max-w-4xl mx-auto px-6">
             <div class="text-center mb-12 reveal">
-                <h2 class="text-4xl font-bold mb-4 font-tech">Let's Build the Future.</h2>
+                <h2 class="text-4xl font-bold mb-4">Let's Build the Future.</h2>
                 <p class="text-gray-500">Available for collaborations in GN&C and AI.</p>
                 
                 <div class="flex flex-wrap justify-center gap-6 mt-8">
@@ -546,7 +581,7 @@
             </div>
 
             <div class="bg-gray-50 p-8 rounded-3xl reveal border border-gray-100 shadow-sm">
-                <h3 class="text-xl font-bold mb-6 text-center font-tech">Contact Me</h3>
+                <h3 class="text-xl font-bold mb-6 text-center">Contact Me</h3>
                 <form id="requestForm" onsubmit="handleRequest(event)" class="space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <input type="text" id="name" placeholder="Your Name" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-500 bg-white">
@@ -571,7 +606,7 @@
                         <textarea id="message" rows="4" placeholder="How can we collaborate?" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-500 bg-white"></textarea>
                     </div>
 
-                    <button type="submit" class="w-full bg-black text-white py-3 rounded-xl font-bold hover:bg-gray-800 transition-all font-tech">Send Message</button>
+                    <button type="submit" class="w-full bg-black text-white py-3 rounded-xl font-bold hover:bg-gray-800 transition-all">Send Message</button>
                 </form>
             </div>
 
@@ -588,13 +623,13 @@
     </section>
 
     <script>
+        // Standard Fade Reveal
         function reveal() {
             var reveals = document.querySelectorAll(".reveal, .bw-to-color");
             for (var i = 0; i < reveals.length; i++) {
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
                 var elementVisible = 100;
-                
                 if (elementTop < windowHeight - elementVisible) {
                     reveals[i].classList.add("active");
                 }
@@ -603,31 +638,48 @@
         window.addEventListener("scroll", reveal);
         reveal(); 
 
-        // --- ARTISTIC SCROLLBAR SCRIPT ---
-        // Dynamically changes CSS variables based on scroll percentage
+        // --- FLIGHT TRACKER SCRIPT ---
+        const contrail = document.getElementById('flight-contrail');
+        const drone = document.getElementById('drone-pilot');
+        const droneIcon = document.querySelector('.drone-icon');
+        
+        let lastScrollTop = 0;
+
         window.addEventListener('scroll', () => {
             const scrollTop = window.scrollY;
             const docHeight = document.body.scrollHeight - window.innerHeight;
-            const scrollPercent = scrollTop / docHeight;
+            
+            // Calculate percentage (0 to 100)
+            let scrollPercent = (scrollTop / docHeight) * 100;
+            
+            // Clamp between 0 and 100
+            scrollPercent = Math.max(0, Math.min(100, scrollPercent));
 
-            // Define colors to interpolate between
-            // 0% - Blue
-            // 50% - Purple
-            // 100% - Cyan
-            
-            const root = document.documentElement;
-            
-            if (scrollPercent < 0.5) {
-                // Transition Blue (#0071e3) -> Purple (#a855f7)
-                root.style.setProperty('--scroll-color-1', '#0071e3');
-                root.style.setProperty('--scroll-color-2', '#a855f7');
-            } else {
-                // Transition Purple (#a855f7) -> Cyan (#06b6d4)
-                root.style.setProperty('--scroll-color-1', '#a855f7');
-                root.style.setProperty('--scroll-color-2', '#06b6d4');
+            // Update trail height and drone position
+            contrail.style.height = scrollPercent + "%";
+            drone.style.top = scrollPercent + "%";
+
+            // --- Drone Banking Logic (Rotate based on scroll direction) ---
+            if (Math.abs(scrollTop - lastScrollTop) > 5) { // Only rotate if scrolling noticeably
+                if (scrollTop > lastScrollTop) {
+                    // Scrolling Down -> Nose Dive slightly (180 + 15 = 195deg)
+                    droneIcon.style.transform = "rotate(195deg)";
+                } else {
+                    // Scrolling Up -> Nose Up slightly (180 - 15 = 165deg)
+                    droneIcon.style.transform = "rotate(165deg)";
+                }
             }
+            
+            // Reset rotation when scroll stops (using a debounce timer)
+            clearTimeout(window.scrollEndTimer);
+            window.scrollEndTimer = setTimeout(() => {
+                droneIcon.style.transform = "rotate(180deg)"; // Reset to flat
+            }, 100);
+
+            lastScrollTop = scrollTop;
         });
 
+        // Contact Form Handler
         function handleRequest(e) {
             e.preventDefault();
             const name = document.getElementById('name').value;
