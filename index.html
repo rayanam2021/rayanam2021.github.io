@@ -3,106 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rahul Ayanampudi | Portfolio</title>
+    <title>Rahul Ayanampudi | Autonomy & GN&C</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --apple-dark: #1d1d1f;
+            --apple-blue: #0071e3;
+            --apple-text: #1d1d1f;
+            --apple-gray: #f5f5f7;
         }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f5f5f7; /* Light Apple Grey Background */
-            color: #1d1d1f;
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: #fff;
+            color: var(--apple-text);
             overflow-x: hidden;
         }
-        html { scroll-behavior: smooth; }
 
-        /* White Navbar Styling */
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.85); /* White/Translucent */
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-        }
-        .nav-link {
-            color: #333;
-            transition: color 0.3s;
-        }
-        .nav-link:hover { color: #0071e3; } /* Apple Blue hover */
-
-        /* YouTube Background Setup */
-        .video-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
-        }
-        .video-container iframe {
-            width: 100vw;
-            height: 56.25vw; /* 16:9 Aspect Ratio */
-            min-height: 100vh;
-            min-width: 177.77vh;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            pointer-events: none; /* Prevents clicking on the YouTube video */
-            opacity: 0.6; /* Dim slightly so text pops */
-        }
-        /* Overlay to ensure text readability over video */
-        .video-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255,255,255,0.7); /* Light overlay */
-            z-index: 0;
-        }
-
-        /* Animations */
+        /* --- Animations --- */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
-            transition: all 0.8s ease-out;
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); /* Apple-like easing */
         }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-        .bento-card {
+        /* --- Navbar --- */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        /* --- Hero Video --- */
+        .video-bg-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden; z-index: -1;
+        }
+        .video-bg-container iframe {
+            width: 100vw; height: 56.25vw; 
+            min-height: 100vh; min-width: 177.77vh;
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none; opacity: 0.5;
+        }
+        .hero-overlay {
+            background: linear-gradient(to bottom, rgba(255,255,255,0.8), rgba(255,255,255,0.4));
+            position: absolute; inset: 0; z-index: 0;
+        }
+
+        /* --- Experience Marquee --- */
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+        .marquee-track {
+            display: inline-flex;
+            animation: scroll 30s linear infinite;
+        }
+        .marquee-container:hover .marquee-track {
+            animation-play-state: paused;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        .exp-card {
+            width: 300px;
+            height: 160px;
+            margin: 0 20px;
             background: #fff;
-            border-radius: 24px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e5e5e5;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
             overflow: hidden;
         }
-        .bento-card:hover {
-            transform: scale(1.02);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            z-index: 10;
+        .exp-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-color: var(--apple-blue);
         }
+        /* Hover Reveal Text */
+        .exp-text {
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.95);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .exp-card:hover .exp-text { opacity: 1; }
+
+        /* --- Education Tabs --- */
+        .edu-card {
+            position: relative;
+            height: 500px;
+            border-radius: 30px;
+            overflow: hidden;
+            color: white;
+        }
+        .edu-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.2));
+            position: absolute; inset: 0;
+        }
+        .tab-bubble {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 99px;
+            padding: 6px 14px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 6px;
+            margin-bottom: 6px;
+            display: inline-block;
+        }
+
+        /* --- Glowing Projects --- */
+        .glow-card {
+            background: #111; /* Dark card for contrast */
+            border-radius: 24px;
+            color: white;
+            transition: all 0.4s ease;
+            position: relative;
+            border: 1px solid #333;
+        }
+        .glow-card:hover {
+            transform: translateY(-10px);
+            border-color: #555;
+        }
+        /* Specific Glow Colors */
+        .glow-blue:hover { box-shadow: 0 0 30px rgba(59, 130, 246, 0.5); }
+        .glow-purple:hover { box-shadow: 0 0 30px rgba(168, 85, 247, 0.5); }
+        .glow-cyan:hover { box-shadow: 0 0 30px rgba(6, 182, 212, 0.5); }
+
     </style>
 </head>
 <body class="antialiased">
 
-    <nav class="fixed w-full z-50 glass-nav transition-all duration-300">
+    <nav class="fixed w-full z-50 glass-nav">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <div class="flex-shrink-0 flex items-center gap-3">
-                    <div class="h-8 w-8 bg-black rounded-full flex items-center justify-center text-white font-bold">R</div>
-                    <span class="font-semibold text-lg tracking-tight text-black">Rahul Ayanampudi</span>
+                <div class="flex items-center gap-3">
+                    <div class="h-8 w-8 bg-black rounded-lg flex items-center justify-center text-white font-bold">R</div>
+                    <span class="font-semibold text-lg">Rahul Ayanampudi</span>
                 </div>
                 <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="#about" class="nav-link px-3 py-2 rounded-md text-sm font-medium">About</a>
-                        <a href="#projects" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Projects</a>
-                        <a href="#simulation" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Simulations</a>
-                        <a href="#contact" class="bg-black text-white hover:bg-gray-800 px-4 py-2 rounded-full text-sm font-medium transition-all">Contact</a>
+                    <div class="ml-10 flex space-x-8">
+                        <a href="#about" class="text-sm font-medium hover:text-blue-600 transition-colors">About</a>
+                        <a href="#experience" class="text-sm font-medium hover:text-blue-600 transition-colors">Experience</a>
+                        <a href="#open-source" class="text-sm font-medium hover:text-blue-600 transition-colors">Open Source</a>
+                        <a href="#featured" class="text-sm font-medium hover:text-blue-600 transition-colors">Featured</a>
+                        <a href="#contact" class="bg-black text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-800 transition-all">Contact</a>
                     </div>
                 </div>
             </div>
@@ -110,139 +185,285 @@
     </nav>
 
     <section class="relative h-screen flex items-center justify-center text-center px-4 overflow-hidden">
-        
-        <div class="video-container">
-            <iframe 
-                src="https://www.youtube.com/embed/videoseries?list=PLmW8Uplo7kzdLUmv0UzjAkqL_Yx4AmAoo&autoplay=1&mute=1&controls=0&loop=1&showinfo=0&rel=0&iv_load_policy=3&playlist=PLmW8Uplo7kzdLUmv0UzjAkqL_Yx4AmAoo" 
-                frameborder="0" 
-                allow="autoplay; encrypted-media" 
-                allowfullscreen>
-            </iframe>
+        <div class="video-bg-container">
+            <iframe src="https://www.youtube.com/embed/videoseries?list=PLmW8Uplo7kzdLUmv0UzjAkqL_Yx4AmAoo&autoplay=1&mute=1&controls=0&loop=1&showinfo=0&rel=0&iv_load_policy=3&playlist=PLmW8Uplo7kzdLUmv0UzjAkqL_Yx4AmAoo" frameborder="0" allow="autoplay; encrypted-media"></iframe>
         </div>
-        <div class="video-overlay"></div>
-        
-        <div class="relative z-10 max-w-4xl mx-auto">
+        <div class="hero-overlay"></div>
+
+        <div class="relative z-10 max-w-5xl mx-auto">
             <h1 class="text-6xl md:text-8xl font-bold tracking-tight mb-6 reveal text-black">
-                Autonomous <br>
-                <span class="text-blue-600">Horizons.</span>
+                Physical AI.<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">Autonomy at Scale.</span>
             </h1>
-            <p class="mt-4 text-xl md:text-2xl text-gray-700 max-w-2xl mx-auto mb-10 reveal font-light" style="transition-delay: 100ms;">
-                Masters in Aero/Astro at Stanford.<br>Engineering the next generation of flight.
+            <p class="mt-4 text-xl text-gray-700 max-w-2xl mx-auto reveal" style="transition-delay: 100ms;">
+                Revolutionizing how we interact with the world through GN&C and Machine Learning.
             </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center reveal" style="transition-delay: 200ms;">
-                <a href="#projects" class="px-8 py-3 bg-black text-white rounded-full font-semibold text-lg hover:bg-gray-800 transition-all shadow-lg">View Work</a>
-                <a href="#contact" class="px-8 py-3 bg-white text-black border border-gray-200 rounded-full font-semibold text-lg hover:bg-gray-50 transition-all shadow-sm">Get in Touch</a>
-            </div>
         </div>
         
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <i class="fa-solid fa-chevron-down text-black/50 text-xl"></i>
+        <div class="absolute bottom-10 animate-bounce">
+            <i class="fa-solid fa-chevron-down text-gray-400 text-xl"></i>
         </div>
     </section>
 
-    <section id="simulation" class="py-20 bg-white">
+    <section class="py-24 bg-white">
+        <div class="max-w-4xl mx-auto px-6 text-center reveal">
+            <h2 class="text-3xl font-semibold mb-6">Core Interests</h2>
+            <p class="text-2xl md:text-3xl font-light leading-relaxed text-gray-800">
+                I am focused on the intersection of <span class="font-semibold text-blue-600">Guidance, Navigation, & Control (GN&C)</span> and <span class="font-semibold text-purple-600">AI/ML</span>. My goal is to build intelligent physical systems that perceive, decide, and act with precision in complex, unstructured environments.
+            </p>
+        </div>
+    </section>
+
+    <section id="experience" class="py-20 bg-[#f5f5f7]">
+        <div class="max-w-7xl mx-auto px-4 mb-10 reveal">
+            <h2 class="text-4xl font-bold">Experience.</h2>
+            <p class="text-gray-500">Industry Leaders & Research Labs.</p>
+        </div>
+
+        <div class="marquee-container reveal">
+            <div class="marquee-track">
+                <div class="exp-card">
+                    <img src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman" class="h-12 opacity-80">
+                    <div class="exp-text"><strong>Northrop Grumman</strong><br>GN&C Engineering Intern.<br>Defense Systems.</div>
+                </div>
+                <div class="exp-card">
+                    <img src="https://logo.clearbit.com/axiomspace.com" alt="Axiom Space" class="h-12 opacity-80">
+                    <div class="exp-text"><strong>Axiom Space</strong><br>Commercial Space Station Development.<br>Avionics Integration.</div>
+                </div>
+                <div class="exp-card">
+                    <img src="https://logo.clearbit.com/rtx.com" alt="Collins Aerospace" class="h-12 opacity-80">
+                    <div class="exp-text"><strong>Collins Aerospace</strong><br>(Raytheon)<br>Flight Control Systems.</div>
+                </div>
+                <div class="exp-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e6/Air_Force_Research_Laboratory_shield.png" alt="AFRL" class="h-16 opacity-80">
+                    <div class="exp-text"><strong>AFRL</strong><br>Autonomous Flight Research.<br>UAV Swarm Logic.</div>
+                </div>
+
+                <div class="exp-card">
+                    <img src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman" class="h-12 opacity-80">
+                    <div class="exp-text"><strong>Northrop Grumman</strong><br>GN&C Engineering Intern.<br>Defense Systems.</div>
+                </div>
+                <div class="exp-card">
+                    <img src="https://logo.clearbit.com/axiomspace.com" alt="Axiom Space" class="h-12 opacity-80">
+                    <div class="exp-text"><strong>Axiom Space</strong><br>Commercial Space Station Development.<br>Avionics Integration.</div>
+                </div>
+                <div class="exp-card">
+                    <img src="https://logo.clearbit.com/rtx.com" alt="Collins Aerospace" class="h-12 opacity-80">
+                    <div class="exp-text"><strong>Collins Aerospace</strong><br>(Raytheon)<br>Flight Control Systems.</div>
+                </div>
+                <div class="exp-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e6/Air_Force_Research_Laboratory_shield.png" alt="AFRL" class="h-16 opacity-80">
+                    <div class="exp-text"><strong>AFRL</strong><br>Autonomous Flight Research.<br>UAV Swarm Logic.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-24 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold mb-12 reveal">Education.</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="edu-card group reveal bg-gray-100">
+                    <img src="https://images.unsplash.com/photo-1629858713360-1e5b8e96683c?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Stanford">
+                    <div class="edu-overlay"></div>
+                    <div class="relative z-10 p-8 h-full flex flex-col justify-end">
+                        <div class="mb-4">
+                            <span class="tab-bubble">Course Assistantship</span>
+                            <span class="tab-bubble">YCombinator Hack (1st)</span>
+                            <span class="tab-bubble">StackAuth Hack (1st)</span>
+                        </div>
+                        <h3 class="text-3xl font-bold">Stanford University</h3>
+                        <p class="text-lg font-medium opacity-90">M.S. Aeronautics & Astronautics</p>
+                        <p class="text-sm opacity-75 mt-1">Stanford Space Initiative</p>
+                        <div class="mt-4 text-sm text-gray-300">
+                            <strong>Relevant Coursework:</strong> Machine Learning, Decision Making Under Uncertainty, Robotic Perception, Convex Optimization, Safety Critical Systems.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="edu-card group reveal bg-gray-100" style="transition-delay: 100ms;">
+                    <img src="https://images.unsplash.com/photo-1576672620864-7c337c767664?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Texas A&M">
+                    <div class="edu-overlay"></div>
+                    <div class="relative z-10 p-8 h-full flex flex-col justify-end">
+                        <div class="mb-4">
+                            <span class="tab-bubble">Brown Scholar</span>
+                            <span class="tab-bubble">Astronaut Scholar Nominee</span>
+                            <span class="tab-bubble">Outstanding Senior Engineer</span>
+                        </div>
+                        <h3 class="text-3xl font-bold">Texas A&M University</h3>
+                        <p class="text-lg font-medium opacity-90">B.S. Aerospace Engineering (Honors + Thesis)</p>
+                        <p class="text-sm opacity-75 mt-1">Minors in CS, Math, Entrepreneurship</p>
+                        <div class="mt-4 text-sm text-gray-300">
+                            <strong>Research & Orgs:</strong> Sounding Rocketry Team, AIAA, NSF I-Corps, ALLEMO Research, Engineers Without Borders.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="open-source" class="py-24 bg-black text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold mb-4 reveal">Open Source.</h2>
+            <p class="text-gray-400 mb-12 reveal">Code that pushes boundaries.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <a href="https://github.com/rayanam2021/CS229_Final_Project" target="_blank" class="block reveal">
+                    <div class="glow-card glow-blue p-8 h-full flex flex-col">
+                        <div class="h-12 w-12 bg-blue-900/50 rounded-full flex items-center justify-center mb-6 text-blue-400 text-xl">
+                            <i class="fa-solid fa-satellite"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Satellite RL Reconstruction</h3>
+                        <p class="text-gray-400 text-sm flex-grow">Active characterization of non-cooperative Resident Space Objects (RSO) using Reinforcement Learning.</p>
+                        <div class="mt-6 flex items-center text-blue-400 text-sm font-semibold">
+                            View Repo <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://github.com/carlo-scr/HalloweenHack" target="_blank" class="block reveal" style="transition-delay: 100ms;">
+                    <div class="glow-card glow-purple p-8 h-full flex flex-col">
+                        <div class="h-12 w-12 bg-purple-900/50 rounded-full flex items-center justify-center mb-6 text-purple-400 text-xl">
+                            <i class="fa-solid fa-magnet"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Magnetic Syndicate</h3>
+                        <p class="text-gray-400 text-sm flex-grow">YCombinator Halloween Hack 2025. Innovative hardware-software integration.</p>
+                        <div class="mt-6 flex items-center text-purple-400 text-sm font-semibold">
+                            View Repo <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://github.com/rayanam2021/Controls" target="_blank" class="block reveal" style="transition-delay: 200ms;">
+                    <div class="glow-card glow-cyan p-8 h-full flex flex-col">
+                        <div class="h-12 w-12 bg-cyan-900/50 rounded-full flex items-center justify-center mb-6 text-cyan-400 text-xl">
+                            <i class="fa-solid fa-plane-up"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Quadrotor-Biplane</h3>
+                        <p class="text-gray-400 text-sm flex-grow">Dynamics and control formulation for complex VTOL aerial vehicles.</p>
+                        <div class="mt-6 flex items-center text-cyan-400 text-sm font-semibold">
+                            View Repo <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="featured" class="py-24 bg-[#f5f5f7]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold mb-12 reveal text-black">Featured Projects.</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 reveal">
+                    <img src="https://images.unsplash.com/photo-1517976487492-5750f3195933?q=80&w=2070&auto=format&fit=crop" class="w-full h-64 object-cover" alt="Atlas Rocket">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-2">Atlas High Power Rocketry</h3>
+                        <p class="text-sm text-gray-500 font-semibold mb-4">L1 Certified | 8,000 ft Apogee | Mach 0.8</p>
+                        <p class="text-gray-600">Built a 7-ft dual-deploy fiberglass rocket. Launched successfully with an L-1350 solid motor. Dallas Association of Rocketry.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 reveal">
+                    <img src="https://images.unsplash.com/photo-1527977966376-1c8408f9f108?q=80&w=2068&auto=format&fit=crop" class="w-full h-64 object-cover" alt="Quasar Drone">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-2">Quasar VTOL UAS</h3>
+                        <p class="text-sm text-gray-500 font-semibold mb-4">Office of Naval Research | Lead Engineer</p>
+                        <p class="text-gray-600">Led 20 engineers to design a 40lb quadrotor-biplane. Achieved 20-mile range with 8lb payload on a $15k budget.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 reveal">
+                    <img src="https://images.unsplash.com/photo-1483304528321-0674f0040030?q=80&w=2070&auto=format&fit=crop" class="w-full h-64 object-cover" alt="F-15 Research">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-2">Supersonic Flight Test</h3>
+                        <p class="text-sm text-gray-500 font-semibold mb-4">NASA F-15 Flight Test | ALLEMO Researcher</p>
+                        <p class="text-gray-600">Published thesis on enhanced LIDAR temperature measurement for boom predictions. Flight-tested on NASA F-15.</p>
+                    </div>
+                </div>
+
+                <a href="https://github.com/tamusrt" target="_blank" class="block bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 reveal">
+                    <img src="https://images.unsplash.com/photo-1454789548728-85d2696cf667?q=80&w=2070&auto=format&fit=crop" class="w-full h-64 object-cover" alt="Propulsive Lander">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-2">Propulsive Lander</h3>
+                        <p class="text-sm text-gray-500 font-semibold mb-4">Texas A&M Sounding Rocketry Team</p>
+                        <p class="text-gray-600">6-DOF Simulation and control logic for autonomous vertical landing.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-24 bg-white border-t border-gray-100">
+        <div class="max-w-4xl mx-auto px-6">
             <div class="text-center mb-12 reveal">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-black">Generative Design.</h2>
-                <p class="text-gray-500">Visualizing orbital mechanics.</p>
+                <h2 class="text-4xl font-bold mb-4">Get in Touch.</h2>
+                <p class="text-gray-500">Let's discuss the future of autonomy.</p>
+                
+                <div class="flex flex-wrap justify-center gap-6 mt-8">
+                    <a href="https://calendly.com/rayanam2021" target="_blank" class="bg-blue-600 text-white px-8 py-3 rounded-full font-medium hover:bg-blue-700 transition-all shadow-lg shadow-blue-200">
+                        <i class="fa-solid fa-calendar mr-2"></i> Book Appointment
+                    </a>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 p-8 rounded-3xl reveal border border-gray-100">
+                <h3 class="text-xl font-bold mb-6 text-center">Request Portfolio & Resume</h3>
+                <form id="requestForm" onsubmit="handleRequest(event)" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="text" id="name" placeholder="Name" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-500 bg-white">
+                        <input type="email" id="email" placeholder="Email" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-500 bg-white">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="text" id="company" placeholder="Company" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-500 bg-white">
+                        <input type="text" id="linkedin" placeholder="LinkedIn URL" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-500 bg-white">
+                    </div>
+                    <button type="submit" class="w-full bg-black text-white py-3 rounded-xl font-bold hover:bg-gray-800 transition-all">Send Request</button>
+                </form>
+            </div>
+
+            <div class="mt-16 flex justify-center gap-8 text-2xl text-gray-400 reveal">
+                <a href="https://github.com/rayanam2021" target="_blank" class="hover:text-black transition-colors"><i class="fa-brands fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/rahul-ayanampudi/" target="_blank" class="hover:text-blue-700 transition-colors"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="https://x.com/RahulAyanampudi" target="_blank" class="hover:text-black transition-colors"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="https://www.youtube.com/@rahulayanampudi5428" target="_blank" class="hover:text-red-600 transition-colors"><i class="fa-brands fa-youtube"></i></a>
+                <a href="https://www.instagram.com/rahulayanampudi/" target="_blank" class="hover:text-pink-600 transition-colors"><i class="fa-brands fa-instagram"></i></a>
             </div>
             
-            <div class="max-w-4xl mx-auto rounded-3xl overflow-hidden shadow-2xl reveal bento-card p-2 bg-gray-100">
-                <video class="w-full rounded-2xl" autoplay loop muted playsinline controls>
-                    <source src="http://googleusercontent.com/generated_video_content/17010222444653968401" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-                <div class="p-6 text-left">
-                    <h3 class="text-xl font-bold">Orbit Visualization</h3>
-                    <p class="text-gray-600">AI-generated realistic representation of satellite orbital dynamics.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="projects" class="py-24 bg-[#f5f5f7]">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-end mb-12 reveal">
-                <div>
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-black">Selected Projects.</h2>
-                    <p class="text-gray-500">Engineering intelligence into motion.</p>
-                </div>
-                <a href="https://github.com/rayanam2021" target="_blank" class="text-blue-600 hover:text-blue-500 font-semibold flex items-center gap-2">
-                    View GitHub <i class="fa-brands fa-github"></i>
-                </a>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <a href="https://github.com/rayanam2021/CS229_Final_Project" target="_blank" class="block">
-                    <div class="bento-card p-8 h-full flex flex-col justify-between reveal">
-                        <div class="mb-6">
-                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4 text-blue-600">
-                                <i class="fa-solid fa-brain text-xl"></i>
-                            </div>
-                            <h3 class="text-2xl font-bold text-black mb-2">CS229 Machine Learning</h3>
-                            <p class="text-gray-600 text-sm">Advanced ML algorithms for decision making under uncertainty.</p>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="https://github.com/carlo-scr/StackAuthHackathon" target="_blank" class="block">
-                    <div class="bento-card p-8 h-full flex flex-col justify-between reveal" style="transition-delay: 100ms;">
-                        <div class="mb-6">
-                            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4 text-green-600">
-                                <i class="fa-solid fa-shield-halved text-xl"></i>
-                            </div>
-                            <h3 class="text-2xl font-bold text-black mb-2">StackAuth</h3>
-                            <p class="text-gray-600 text-sm">Distributed security protocols.</p>
-                        </div>
-                    </div>
-                </a>
-
-                <div class="bento-card p-8 h-full flex flex-col justify-between reveal" style="transition-delay: 200ms;">
-                    <div class="mb-6">
-                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4 text-purple-600">
-                            <i class="fa-solid fa-satellite text-xl"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-black mb-2">Rendezvous</h3>
-                        <p class="text-gray-600 text-sm">Orbital mechanics simulation and docking procedures.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="py-24 bg-white">
-        <div class="max-w-3xl mx-auto px-4 text-center">
-            <h2 class="text-4xl md:text-5xl font-bold mb-6 reveal text-black">Let's Connect.</h2>
-            <div class="flex flex-col sm:flex-row justify-center gap-4 reveal">
-                <a href="mailto:rayanam2021@gmail.com" class="px-8 py-4 bg-black text-white rounded-full font-bold text-lg hover:bg-gray-800 transition-all flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-envelope"></i> Email Me
-                </a>
-                <a href="#" class="px-8 py-4 bg-gray-100 text-black rounded-full font-bold text-lg hover:bg-gray-200 transition-all flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-calendar"></i> Book Appointment
-                </a>
-            </div>
-            <div class="mt-16 pt-8 flex justify-center gap-6 reveal">
-                <a href="https://www.linkedin.com/in/rahul-ayanampudi/" class="text-gray-400 hover:text-black transition-colors text-3xl">
-                    <i class="fa-brands fa-linkedin"></i>
-                </a>
-                <a href="https://github.com/rayanam2021" class="text-gray-400 hover:text-black transition-colors text-3xl">
-                    <i class="fa-brands fa-github"></i>
-                </a>
-            </div>
+            <p class="text-center text-gray-300 text-sm mt-8">&copy; 2025 Rahul Ayanampudi.</p>
         </div>
     </section>
 
     <script>
+        // Reveal Animation on Scroll
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
-                if (elementTop < windowHeight - 150) reveals[i].classList.add("active");
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
             }
         }
         window.addEventListener("scroll", reveal);
-        reveal();
+        reveal(); // Trigger once on load
+
+        // Handle Form Submit (Client Side Mailto)
+        function handleRequest(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const company = document.getElementById('company').value;
+            const linkedin = document.getElementById('linkedin').value;
+
+            const subject = `Portfolio Request from ${name}`;
+            const body = `Hi Rahul,%0D%0A%0D%0AI would like to request your resume and portfolio.%0D%0A%0D%0AName: ${name}%0D%0AEmail: ${email}%0D%0ACompany: ${company}%0D%0ALinkedIn: ${linkedin}%0D%0A%0D%0AThanks!`;
+
+            window.location.href = `mailto:rayanam2021@gmail.com?subject=${subject}&body=${body}`;
+        }
     </script>
 </body>
 </html>
